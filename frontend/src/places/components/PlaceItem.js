@@ -10,6 +10,7 @@ import { AuthContext } from '../../shared/context/auth-context';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import './PlaceItem.css';
 
+/* 장소의 정보를 보여주는 페이지 */
 const PlaceItem = props => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
@@ -46,7 +47,7 @@ const PlaceItem = props => {
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
-      <Modal
+      <Modal /* 하위 버튼에서 view on map을 클릭했을시 show가 true가 되면서 visible */
         show={showMap}
         onCancel={closeMapHandler}
         header={props.address}
@@ -58,7 +59,7 @@ const PlaceItem = props => {
           <Map center={props.coordinates} zoom={16} />
         </div>
       </Modal>
-      <Modal
+      <Modal /* 하위 버튼에서 delete을 클릭했을시 showConfirmModal = true가 되면서 visible */
         show={showConfirmModal}
         onCancel={cancelDeleteHandler}
         header="Are you sure?"
@@ -79,7 +80,7 @@ const PlaceItem = props => {
           can't be undone thereafter.
         </p>
       </Modal>
-      <li className="place-item">
+      <li className="place-item"> {/* 본격적인 구체적인 장소에 대한 정보를 표기하는 부분 */}
         <Card className="place-item__content">
           {isLoading && <LoadingSpinner asOverlay />}
           <div className="place-item__image">

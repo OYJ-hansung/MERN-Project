@@ -72,12 +72,12 @@ const Auth = () => {
         const responseData = await sendRequest(
           process.env.REACT_APP_BACKEND_URL+'/users/login',
           'POST',
-          JSON.stringify({
+          JSON.stringify({ // 일반 스트링 데이터를 제이슨으로 변경해주는 함수
             email: formState.inputs.email.value,
             password: formState.inputs.password.value
           }),
           {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json' //백엔드가 제이슨 타입을 요구한다. 이를 위한 헤더
           }
         );
         auth.login(responseData.userId, responseData.token);

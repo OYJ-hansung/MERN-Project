@@ -4,20 +4,20 @@ export const useHttpClient = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
 
-  const activeHttpRequests = useRef([]);
+  const activeHttpRequests = useRef([]); /* 로딩하는 도중에 페이지를 이동할떄 생기는 오류를 잡기 위함. rerender할때 initialize되는 것을 방지. 즉 비동기 작업을 취소하기 위함 */
 
   const sendRequest = useCallback(
     async (url, method = 'GET', body = null, headers = {}) => {
       setIsLoading(true);
-      const httpAbortCtrl = new AbortController();
-      activeHttpRequests.current.push(httpAbortCtrl);
+      const httpAbortCtrl = new AbortController(); 
+      activeHttpRequests.current.push(httpAbortCtrl); /* activeHttpRequests 에 AbortController를 포함 */
 
       try {
         const response = await fetch(url, {
           method,
           body,
           headers,
-          signal: httpAbortCtrl.signal
+          signal: httpAbortCtrl.signal /* 사용자가 어보트컨트롤러를 사용할 수 있도록 */
         });
 
         const responseData = await response.json();

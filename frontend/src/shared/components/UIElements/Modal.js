@@ -5,7 +5,9 @@ import { CSSTransition } from 'react-transition-group';
 import Backdrop from './Backdrop';
 import './Modal.css';
 
-const ModalOverlay = props => {
+// 팝업 창 정의
+
+const ModalOverlay = props => { /* 폼 제출 양식 정의 */
   const content = (
     <div className={`modal ${props.className}`} style={props.style}>
       <header className={`modal__header ${props.headerClass}`}>
@@ -30,8 +32,8 @@ const ModalOverlay = props => {
 
 const Modal = props => {
   return (
-    <React.Fragment>
-      {props.show && <Backdrop onClick={props.onCancel} />}
+    <React.Fragment> {/* 여러개의 컴포넌트를 리턴하기 위해 사용  */}
+      {props.show && <Backdrop onClick={props.onCancel} />} 
       <CSSTransition
         in={props.show}
         mountOnEnter

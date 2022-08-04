@@ -10,6 +10,7 @@ const UserPlaces = () => {
   const [loadedPlaces, setLoadedPlaces] = useState();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
+  // app.js의 http주소로부터 받아온 userid를 불러옴
   const userId = useParams().userId;
 
   useEffect(() => {
@@ -24,7 +25,7 @@ const UserPlaces = () => {
     fetchPlaces();
   }, [sendRequest, userId]);
 
-  const placeDeletedHandler = deletedPlaceId => {
+  const placeDeletedHandler = deletedPlaceId => { /* 장소 지우기 */
     setLoadedPlaces(prevPlaces =>
       prevPlaces.filter(place => place.id !== deletedPlaceId)
     );

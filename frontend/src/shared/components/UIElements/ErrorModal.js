@@ -5,7 +5,7 @@ import Button from '../FormElements/Button';
 
 const ErrorModal = props => {
   return (
-    <Modal
+    <Modal /* onSubmit이 없으므로 form이 생성되지 않는다. 단지 오류 메시지를 출력 */
       onCancel={props.onClear}
       header="An Error Occurred!"
       show={!!props.error}

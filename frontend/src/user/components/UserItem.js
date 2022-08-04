@@ -5,6 +5,7 @@ import Avatar from '../../shared/components/UIElements/Avatar';
 import Card from '../../shared/components/UIElements/Card';
 import './UserItem.css';
 
+/* 한명의 유저에 대한 카드 모양 정의 */
 const UserItem = props => {
   return (
     <li className="user-item">

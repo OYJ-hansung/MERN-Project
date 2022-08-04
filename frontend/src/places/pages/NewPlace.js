@@ -15,6 +15,7 @@ import { useHttpClient } from '../../shared/hooks/http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
 import './PlaceForm.css';
 
+/* 사용자에 새로운 장소를 추가하는 부분 */
 const NewPlace = () => {
   const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();

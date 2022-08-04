@@ -5,7 +5,7 @@ import Card from '../../shared/components/UIElements/Card';
 import './UsersList.css';
 
 const UsersList = props => {
-  if (props.items.length === 0) {
+  if (props.items.length === 0) { /* 만약 등록된 사람이 없다면.. */
     return (
       <div className="center">
         <Card>
@@ -15,7 +15,7 @@ const UsersList = props => {
     );
   }
 
-  return (
+  return ( /* 받아온 유져가 있다면, unordered list형태로 아래와 같이 map으로 받아온다*/
     <ul className="users-list">
       {props.items.map(user => (
         <UserItem

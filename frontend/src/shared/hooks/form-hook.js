@@ -1,5 +1,7 @@
 import { useCallback, useReducer } from 'react';
 
+// userReducer은 interconnected state를 관리하기에 매우 용이한 훅, 폼내부의 스트링 값과 validation은 밀접하게 연결되어 있으므로 useReducer를 사용
+
 const formReducer = (state, action) => {
   switch (action.type) {
     case 'INPUT_CHANGE':
@@ -14,7 +16,7 @@ const formReducer = (state, action) => {
           formIsValid = formIsValid && state.inputs[inputId].isValid;
         }
       }
-      return {
+      return { /* ...state로 기존 상태를 저장하되, inputs, isValid 에 해당하는 값만 변경하는 코드 */
         ...state,
         inputs: {
           ...state.inputs,
@@ -33,6 +35,7 @@ const formReducer = (state, action) => {
 };
 
 export const useForm = (initialInputs, initialFormValidity) => {
+  // useReducer를 활용해 각 keystoke마다 변경되는 validation
   const [formState, dispatch] = useReducer(formReducer, {
     inputs: initialInputs,
     isValid: initialFormValidity

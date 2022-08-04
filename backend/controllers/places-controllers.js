@@ -29,7 +29,7 @@ const getPlaceById = async (req, res, next) => {
     );
     return next(error);
   }
-
+  // 오브제트형식으로 변경하고, _id > id로 변경하기 위한 getter
   res.json({ place: place.toObject({ getters: true }) });
 };
 
@@ -54,7 +54,7 @@ const getPlacesByUserId = async (req, res, next) => {
       new HttpError('Could not find places for the provided user id.', 404)
     );
   }
-
+  // places가 array로 들어오기 때문에 여기서는 map과 object를 같이 활용한다.
   res.json({
     places: userWithPlaces.places.map(place =>
       place.toObject({ getters: true })
@@ -106,7 +106,8 @@ const createPlace = async (req, res, next) => {
 
   console.log(user);
 
-  try {
+  try { // 두가지 작업을 동시에 하기 위해서: 장소 만들기, 해당 장소에 알맞는 유저에게 장소 추가하기 > session, transaction. 
+    // 추가적으로 알아야하는 것은, transaction은 새로운 collection을 생성하지 못한다. 즉, 만약 places 혹은 users collection이 몽고측에 존재하지 않으면 오류가 발생한다. 만약 없다면 수동으로 미리 생성해야한다.
     const sess = await mongoose.startSession();
     sess.startTransaction();
     await createdPlace.save({ session: sess });
@@ -172,7 +173,7 @@ const deletePlace = async (req, res, next) => {
 
   let place;
   try {
-    place = await Place.findById(placeId).populate('creator');
+    place = await Place.findById(placeId).populate('creator'); // ref를 통해 연결한 creator를 불러옴, populate를 통해 데이터를 찾음과 동시에 작업할 수 있는 기능
   } catch (err) {
     const error = new HttpError(
       'Something went wrong, could not delete place.',
@@ -200,7 +201,7 @@ const deletePlace = async (req, res, next) => {
     const sess = await mongoose.startSession();
     sess.startTransaction();
     await place.remove({ session: sess });
-    place.creator.places.pull(place);
+    place.creator.places.pull(place); // 해당 장소를 제거 pull
     await place.creator.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
